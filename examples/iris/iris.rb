@@ -4,9 +4,14 @@ require_relative 'dataset'
 # --------------- データセットの準備 -----------------
 iris_dataset = Dataset.get_iris
 
+# todo: データセットを分割する
+train_and_valid, test = split_dataset_random_tekina_yatsu(iris_dataset, iris_dataset.length * 0.7)
+train, valid = split_dataset_random_tekina_yatsu(train_and_valid, iris_dataset.length * 0.7)
+
 # --------------- イテレータの準備 -----------------
-train_iter = nil
-valid_iter = nil
+batch_size = 4
+train_iter = Chainer::Iterators::SerialIterator.new(train, batch_size)
+valid_iter = Chainer::Iterators::SerialIterator.new(valid, batch_size, repeat: false, shuffle: false)
 
 # --------------- ネットワークの準備 -----------------
 predictor = MLP.new
