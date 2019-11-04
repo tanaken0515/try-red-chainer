@@ -1,6 +1,8 @@
 require_relative 'mlp'
+require_relative 'dataset'
 
 # --------------- データセットの準備 -----------------
+iris_dataset = Dataset.get_iris
 
 # --------------- イテレータの準備 -----------------
 train_iter = nil
