@@ -40,3 +40,7 @@ trainer.extend(EXTENSIONS::ParameterStatistics(net.predictor.l1, {'mean': np.mea
 
 # --------------- 訓練の開始 -----------------
 trainer.run
+
+# --------------- testデータを使った推論 -----------------
+# todo
+# `net` や `net.predictor` を良い感じに使ったら推論できる？
