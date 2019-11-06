@@ -25,7 +25,7 @@ predictor = MLP.new
 net = Chainer::Links::Model::Classifier.new(predictor)
 
 optimizer = Chainer::Optimizers::MomentumSGD.new(lr: 0.01)
-optimizer.set(net)
+optimizer.setup(net)
 
 updater = Chainer::Training::StandardUpdater.new(train_iter, optimizer, device: -1) # device=-1でCPUでの計算実行を指定
 
