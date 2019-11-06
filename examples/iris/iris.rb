@@ -4,9 +4,14 @@ require_relative 'dataset'
 # --------------- データセットの準備 -----------------
 iris_dataset = Dataset.get_iris
 
-# todo: データセットを分割する
-train_and_valid, test = split_dataset_random_tekina_yatsu(iris_dataset, iris_dataset.length * 0.7)
-train, valid = split_dataset_random_tekina_yatsu(train_and_valid, iris_dataset.length * 0.7)
+# データセットを分割する
+# train_and_valid, test = split_dataset_random_tekina_yatsu(iris_dataset, iris_dataset.length * 0.7)
+# train, valid = split_dataset_random_tekina_yatsu(train_and_valid, iris_dataset.length * 0.7)
+
+# いったん、分割するのをあきらめて全データ使う
+train = Dataset.get_iris
+valid = Dataset.get_iris
+test = Dataset.get_iris
 
 # --------------- イテレータの準備 -----------------
 batch_size = 4
