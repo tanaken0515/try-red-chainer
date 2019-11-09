@@ -45,7 +45,3 @@ trainer.extend(EXTENSIONS::ProgressBar.new)
 
 # --------------- 訓練の開始 -----------------
 trainer.run
-
-# --------------- testデータを使った推論 -----------------
-# todo
-# `net` や `net.predictor` を良い感じに使ったら推論できる？
