@@ -5,13 +5,8 @@ require_relative 'dataset'
 iris_dataset = Dataset.get_iris
 
 # データセットを分割する
-# train_and_valid, test = split_dataset_random_tekina_yatsu(iris_dataset, iris_dataset.length * 0.7)
-# train, valid = split_dataset_random_tekina_yatsu(train_and_valid, iris_dataset.length * 0.7)
-
-# いったん、分割するのをあきらめて全データ使う
-train = Dataset.get_iris
-valid = Dataset.get_iris
-test = Dataset.get_iris
+train_and_valid, test = Chainer::Datasets.split_dataset_random(iris_dataset, (iris_dataset.size * 0.7).to_i)
+train, valid = Chainer::Datasets.split_dataset_random(train_and_valid, (train_and_valid.size * 0.7).to_i)
 
 # --------------- イテレータの準備 -----------------
 batch_size = 4
@@ -30,7 +25,9 @@ optimizer.setup(net)
 updater = Chainer::Training::StandardUpdater.new(train_iter, optimizer, device: -1) # device=-1でCPUでの計算実行を指定
 
 # --------------- トレーナの作成 -----------------
-trainer = Chainer::Training::Trainer.new(updater, stop_trigger: [30, 'epoch'], out: "results/iris_result_#{Time.now.strftime("%Y%m%d_%H%M%S")}")
+output_dir = "results/iris_result_#{Time.now.strftime("%Y%m%d_%H%M%S")}"
+max_epoch = 30
+trainer = Chainer::Training::Trainer.new(updater, stop_trigger: [max_epoch, 'epoch'], out: output_dir)
 
 # --------------- トレーナの拡張 -----------------
 EXTENSIONS = Chainer::Training::Extensions
@@ -45,3 +42,24 @@ trainer.extend(EXTENSIONS::ProgressBar.new)
 
 # --------------- 訓練の開始 -----------------
 trainer.run
+
+# --------------- 推論 -----------------
+predictor_for_inference = MLP.new
+
+snapshot_filename = "#{output_dir}/#{format("snapshot_epoch-%02d", max_epoch)}"
+Chainer::Serializers::MarshalDeserializer.load_file(snapshot_filename, predictor_for_inference, path: '/updater/model:main/@predictor/')
+
+print '-' * 100 + "\n"
+
+pass_count = 0
+(0...test.size).each do |i|
+  variables, answer = test[i]
+
+  # 変数をモデルに与えて推論結果を取得
+  prediction = predictor_for_inference.(variables).data.argmax
+  pass_count += 1 if prediction == answer
+
+  print format("test%03d: prediction = %d, answer = %d\n",i, prediction, answer)
+end
+
+print "accuracy: #{pass_count * 100.0 / test.size}\n"
