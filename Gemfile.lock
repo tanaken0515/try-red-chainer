@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/tanaken0515/red-chainer
-  revision: 3cd9b7211066101d7dd3e8c367c13d5386fbd357
+  revision: 7234ea10f9b2e0e316e8148f866395e5b01ecf54
   branch: sub-dataset-class
   specs:
     red-chainer (0.4.1)
