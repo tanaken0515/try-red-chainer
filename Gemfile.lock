@@ -1,11 +1,17 @@
+GIT
+  remote: https://github.com/tanaken0515/red-chainer
+  revision: 3cd9b7211066101d7dd3e8c367c13d5386fbd357
+  branch: sub-dataset-class
+  specs:
+    red-chainer (0.4.1)
+      numo-narray (>= 0.9.1.1)
+      red-datasets (>= 0.0.6)
+
 GEM
   remote: https://rubygems.org/
   specs:
     csv (3.1.2)
     numo-narray (0.9.1.5)
-    red-chainer (0.4.1)
-      numo-narray (>= 0.9.1.1)
-      red-datasets (>= 0.0.6)
     red-datasets (0.0.9)
       csv (>= 3.0.5)
       rubyzip
@@ -15,7 +21,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  red-chainer (~> 0.4.1)
+  red-chainer!
 
 BUNDLED WITH
    2.0.2

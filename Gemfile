@@ -4,4 +4,4 @@ source "https://rubygems.org"
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-gem 'red-chainer', '~> 0.4.1'
+gem 'red-chainer', git: 'https://github.com/tanaken0515/red-chainer', branch: 'sub-dataset-class'
