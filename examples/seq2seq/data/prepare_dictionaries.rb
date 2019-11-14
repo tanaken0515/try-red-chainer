@@ -18,8 +18,8 @@ eng_dictionary = eng_words
                    .gsub(/[\.]{3}/, '')             # 3点リード ... を消す
                    .gsub(/\.\s/, ' ')               # 単語末尾のピリオドを消す
                    .split(' ').uniq.join("\n")
-                + "\n"
-                + %w[" , . ... ! ? ( )].join("\n") # 消した記号たちを辞書に追加する
+eng_dictionary << "\n"
+eng_dictionary << %w[" , . ... ! ? ( )].join("\n") # 消した記号たちを辞書に追加する
 
 File.write('examples/seq2seq/data/jpn_dictionary.csv', jpn_dictionary)
 File.write('examples/seq2seq/data/eng_dictionary.csv', eng_dictionary)
