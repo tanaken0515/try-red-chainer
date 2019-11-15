@@ -28,6 +28,13 @@ describe Examples::Seq2seq::Utility::Eng do
           end
         end
 
+        context '単語中の連続ピリオド' do
+          let(:text) { 'Her shots are very fast but...a fast ball means that it will come back that much faster. ' }
+          it '連続するピリオドを1単語として分割される' do
+            expect(subject).to eq('Her shots are very fast but ... a fast ball means that it will come back that much faster . ')
+          end
+        end
+
         context '単語先頭の連続ピリオド' do
           let(:text) { ' ...Hey teacher. ' }
           it '連続するピリオドを1単語として分割される' do
