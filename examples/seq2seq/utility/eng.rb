@@ -5,7 +5,9 @@ module Examples
         def self.parse(text)
           text
             .gsub(/[\.]{2,}\s/, ' \0')
+            .gsub(/\s[\.]{2,}/, '\0 ')
             .gsub(/(\w+?)\.\s/, '\1 . ')
+            .gsub(/ {1,}/, ' ')
         end
       end
     end
