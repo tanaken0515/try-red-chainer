@@ -51,10 +51,10 @@ describe Examples::Seq2seq::Utility::Eng do
       end
     end
 
-    context '! ? ( ) " , の扱い' do
-      let(:text) { ' "Oh..., so good!" (do you think so?) ' }
+    context '! ? ( ) " , ; の扱い' do
+      let(:text) { 'I said; "Oh..., so good!" (do you think so?) ' }
       it '分割される' do
-        expect(subject).to eq(' " Oh ... , so good ! " ( do you think so ? ) ')
+        expect(subject).to eq('I said ; " Oh ... , so good ! " ( do you think so ? ) ')
       end
 
       context '数字の途中で , が使われている場合' do

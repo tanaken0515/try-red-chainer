@@ -4,7 +4,7 @@ module Examples
       module Eng # :nodoc:
         def self.parse(text)
           text
-            .gsub(/["!\(\)\?]/, ' \0 ')
+            .gsub(/[;"!\(\)\?]/, ' \0 ')
             .gsub(/([^\d])(,)([^\d])/, '\1 \2 \3')
             .gsub(/(\d)(,)(\s)/, '\1 \2 \3')
             .gsub(/[\.]{2,}\s/, ' \0')
