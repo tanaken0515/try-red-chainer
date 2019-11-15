@@ -71,5 +71,12 @@ describe Examples::Seq2seq::Utility::Eng do
         end
       end
     end
+
+    context 'シングルクオーテーションの扱い' do
+      let(:text) { "Please explain the grammar of 'as may be'. " }
+      it '分割される' do
+        expect(subject).to eq("Please explain the grammar of ' as may be ' . ")
+      end
+    end
   end
 end
