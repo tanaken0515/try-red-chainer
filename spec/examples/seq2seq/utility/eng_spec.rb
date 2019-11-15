@@ -49,6 +49,20 @@ describe Examples::Seq2seq::Utility::Eng do
       it '分割される' do
         expect(subject).to eq(' " Oh ... , so good ! " ( do you think so ? ) ')
       end
+
+      context '数字で , が使われている場合' do
+        let(:text) { '3,000,000' }
+        it '分割されない' do
+          expect(subject).to eq('3,000,000')
+        end
+      end
+
+      context '記号の直前で , が使われている場合' do
+        let(:text) { 'There\'s a saying, "once in a life-time event," and that\'s just what this is. ' }
+        it '正しく , が分割される' do
+          expect(subject).to eq('There\'s a saying , " once in a life-time event , " and that\'s just what this is . ')
+        end
+      end
     end
   end
 end
