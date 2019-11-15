@@ -18,5 +18,12 @@ describe Examples::Seq2seq::Utility::Eng do
         expect(subject).to eq('Ruby 2.7.0 Preview 2 Released . ')
       end
     end
+
+    context '連続するピリオドがある場合' do
+      let(:text) { 'Oh... so cool. ' }
+      it '連続するピリオドを1単語として分割される' do
+        expect(subject).to eq('Oh ... so cool . ')
+      end
+    end
   end
 end
