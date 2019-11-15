@@ -43,5 +43,12 @@ describe Examples::Seq2seq::Utility::Eng do
         expect(subject).to eq('so good')
       end
     end
+
+    context '! ? ( ) " , の扱い' do
+      let(:text) { ' "Oh..., so good!" (do you think so?) ' }
+      it '分割される' do
+        expect(subject).to eq(' " Oh ... , so good ! " ( do you think so ? ) ')
+      end
+    end
   end
 end
