@@ -91,6 +91,13 @@ describe Examples::Seq2seq::Utility::Eng do
           expect(subject).to eq("show the meaning of ' action , state , process , results , ' and so on . ")
         end
       end
+
+      context 'カンマの直前にシングルクォーテーションが来る場合' do
+        let(:text) { "What you call a 'charm', you know, is what girls wish upon that they may get together with the person they love and such like. " }
+        it '分割される' do
+          expect(subject).to eq("What you call a ' charm ' , you know , is what girls wish upon that they may get together with the person they love and such like . ")
+        end
+      end
     end
   end
 end
