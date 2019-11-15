@@ -57,10 +57,17 @@ describe Examples::Seq2seq::Utility::Eng do
         expect(subject).to eq(' " Oh ... , so good ! " ( do you think so ? ) ')
       end
 
-      context '数字で , が使われている場合' do
+      context '数字の途中で , が使われている場合' do
         let(:text) { '3,000,000' }
         it '分割されない' do
           expect(subject).to eq('3,000,000')
+        end
+      end
+
+      context '数字の末尾で , が使われている場合' do
+        let(:text) { "Born on 2006 Feb 23, at 2730g, our family's treasure. " }
+        it '分割される' do
+          expect(subject).to eq("Born on 2006 Feb 23 , at 2730g , our family's treasure . ")
         end
       end
 
@@ -76,6 +83,13 @@ describe Examples::Seq2seq::Utility::Eng do
       let(:text) { "Please explain the grammar of 'as may be'. " }
       it '分割される' do
         expect(subject).to eq("Please explain the grammar of ' as may be ' . ")
+      end
+
+      context 'カンマの直後にシングルクォーテーションが来る場合' do
+        let(:text) { "show the meaning of 'action, state, process, results,' and so on. " }
+        it '分割される' do
+          expect(subject).to eq("show the meaning of ' action , state , process , results , ' and so on . ")
+        end
       end
     end
   end
