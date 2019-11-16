@@ -1,3 +1,5 @@
+require 'csv'
+
 module Examples
   module Seq2seq
     module Utility
@@ -19,6 +21,11 @@ module Examples
 
         def size
           @w2i.size
+        end
+
+        def self.from_csv(file_path)
+          dictionary = CSV.read(file_path, liberal_parsing: true).flatten
+          self.new(dictionary)
         end
 
         private

@@ -1,5 +1,6 @@
 require 'chainer'
 require_relative 'data/dataset'
+require_relative 'utility/vocabulary'
 
 # --------------- データセットの準備 -----------------
 dataset_size = 2500
@@ -15,8 +16,8 @@ train, test = Chainer::Datasets.split_dataset_random(dataset, (dataset.size * 0.
 # valid_iter = Chainer::Iterators::SerialIterator.new(valid, batch_size, repeat: false, shuffle: false)
 
 # --------------- ネットワークの準備 -----------------
-jpn_vocabulary = Examples::Seq2seq::Utility::Vocabulary.from_csv('examples/seq2seq/data/jpn_dictionary.csv') # todo
-eng_vocabulary = Examples::Seq2seq::Utility::Vocabulary.from_csv('examples/seq2seq/data/eng_dictionary.csv') # todo
+jpn_vocabulary = Examples::Seq2seq::Utility::Vocabulary.from_csv('examples/seq2seq/data/jpn_dictionary.csv')
+eng_vocabulary = Examples::Seq2seq::Utility::Vocabulary.from_csv('examples/seq2seq/data/eng_dictionary.csv')
 embed_size = 100
 model = Translator.new(jpn_vocabulary, eng_vocabulary, embed_size) # todo
 
