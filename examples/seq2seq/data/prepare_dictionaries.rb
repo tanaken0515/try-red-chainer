@@ -1,0 +1,21 @@
+require 'csv'
+require 'natto'
+require_relative '../utility/eng'
+
+jpn_words = ''
+eng_words = ' '
+
+nm = Natto::MeCab.new('-Owakati')
+
+CSV.foreach('examples/seq2seq/data/jpn_eng_sentences.csv', col_sep: "\t", liberal_parsing: true) do |row|
+  jpn_sentence, eng_sentence = row
+  jpn_words << nm.parse(jpn_sentence) + ' '
+  eng_words << eng_sentence + ' '
+end
+
+jpn_dictionary = jpn_words.split(' ').uniq.join("\n")
+eng_dictionary = Examples::Seq2seq::Utility::Eng.parse(eng_words)
+                   .split(' ').uniq.join("\n")
+
+File.write('examples/seq2seq/data/jpn_dictionary.csv', jpn_dictionary)
+File.write('examples/seq2seq/data/eng_dictionary.csv', eng_dictionary)
