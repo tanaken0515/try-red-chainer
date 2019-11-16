@@ -1,9 +1,9 @@
 require 'chainer'
+require_relative 'data/dataset'
 
 # --------------- データセットの準備 -----------------
 dataset_size = 2500
-dataset = Dataset.get_jpn2eng(dataset_size) # todo
-# dataset[0] # => %w[ムーリエル は ２ ０ 歳 に なり まし た 。], %[Muiriel is 20 now .]
+dataset = Dataset.get_jpn2eng(dataset_size)
 
 # データセットを分割する
 train, test = Chainer::Datasets.split_dataset_random(dataset, (dataset.size * 0.7).to_i)
