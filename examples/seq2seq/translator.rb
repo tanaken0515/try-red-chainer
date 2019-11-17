@@ -26,7 +26,7 @@ class Translator < Chainer::Chain
       source_sentence_words, target_sentence_words = train_dataset[i]
 
       @hidden.reset_state
-      self.zerograds
+      @optimizer.target.cleargrads
       loss = loss(source_sentence_words, target_sentence_words)
       loss.backword
       loss.unchain_backword
