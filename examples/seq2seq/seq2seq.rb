@@ -1,6 +1,7 @@
 require 'chainer'
 require_relative 'data/dataset'
 require_relative 'utility/vocabulary'
+require_relative 'translator'
 
 # --------------- データセットの準備 -----------------
 dataset_size = 2500
@@ -69,15 +70,15 @@ print '-' * 100 + "\n"
 
 pass_count = 0
 (0...test.size).each do |i|
-  variables, answer = test[i]
+  jpn_sentence_words, eng_sentence_words = test[i]
 
   # 変数をモデルに与えて推論結果を取得
-  prediction = model_for_inference.test(variables)
-  pass_count += 1 if prediction == answer
+  prediction = model_for_inference.inference(jpn_sentence_words)
+  pass_count += 1 if prediction == eng_sentence_words
 
   print format("test%09d\n", i)
-  print " - jpn: #{variables.join(' ')}\n"
-  print " - ans: #{answer.join(' ')}\n"
+  print " - jpn: #{jpn_sentence_words.join(' ')}\n"
+  print " - ans: #{eng_sentence_words.join(' ')}\n"
   print " - pre: #{prediction.join(' ')}\n"
   print "\n"
 end
