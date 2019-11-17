@@ -80,10 +80,26 @@ class Translator < Chainer::Chain
   end
 
   def h_i_list(source_sentence_words)
-    NotImplementedError
+    source_sentence_words.each_with_object([]) do |word, result|
+      wid = @source_vocab.word_to_id(word)
+      x_i = @embed_x.(Chainer::Variable.new(Numo::Int32[wid]))
+      h_i = @hidden.(x_i)
+
+      result.append(h_i.data[0].clone) # np.copy(h_i.data[0])
+    end
   end
 
-  def c_t(bar_h_i_list, h_t, test=false)
-    NotImplementedError
+  def c_t(bar_h_i_list, h_t)
+    s = bar_h_i_list.inject(0.0) do |result, bar_h_i|
+      result + Numo::NMath.exp(h_t.dot(bar_h_i))
+    end
+
+    c_t_default = Numo::DFloat.zeros(@embed_size)
+    c_t = bar_h_i_list.inject(c_t_default) do |result, bar_h_i|
+      alpha_t_i = Numo::NMath.exp(h_t.dot(bar_h_i)) / s
+      result + alpha_t_i * bar_h_i
+    end
+
+    Chainer::Variable.new(Numo::Float32[c_t])
   end
 end
