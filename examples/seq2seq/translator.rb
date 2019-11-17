@@ -51,10 +51,10 @@ class Translator < Chainer::Chain
   def loss(source_sentence_words, target_sentence_words)
     bar_h_i_list = h_i_list(source_sentence_words)
 
-    unk_and_eos_ids = Numo::Int32[@source_vocab.class::UNK[:id].to_i, @source_vocab.class::EOS[:id].to_i]
-    x_i = @embed_x.(Chainer::Variable.new(unk_and_eos_ids))
+    # 先頭の単語を推定して損失誤差を求める
+    eos_id = @source_vocab.class::EOS[:id].to_i
+    x_i = @embed_x.(Chainer::Variable.new(Numo::Int32[eos_id]))
     h_t = @hidden.(x_i)
-
     c_t = c_t(bar_h_i_list, h_t.data[0])
 
     bar_h_t = Chainer::Functions::Activation::Tanh.tanh(@w_c1.(c_t) + @w_c2.(h_t))
@@ -62,6 +62,7 @@ class Translator < Chainer::Chain
     tx = Chainer::Variable.new(Numo::Int32[first_wid])
     accum_loss = Chainer::Functions::Loss::SoftmaxCrossEntropy.softmax_cross_entropy(@w_y.(bar_h_t), tx)
 
+    # 2単語目以降を1単語ずつ推定して損失誤差を加算していく
     (target_sentence_words + [@target_vocab.class::EOS[:word]]).each_cons(2) do |this_word, next_word|
       wid = @target_vocab.word_to_id(this_word).to_i
       y_i = @embed_y.(Chainer::Variable.new(Numo::Int32[wid]))
