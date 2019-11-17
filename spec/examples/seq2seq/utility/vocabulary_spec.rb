@@ -40,6 +40,10 @@ describe Examples::Seq2seq::Utility::Vocabulary do
       expect(vocabulary.id_to_word(unknown_word[:id])).to eq unknown_word[:word]
       expect(vocabulary.id_to_word(end_of_string[:id])).to eq end_of_string[:word]
     end
+
+    it '引数にInteger以外を渡すとTypeErrorが発生する' do
+      expect{ vocabulary.id_to_word('1') }.to raise_error TypeError
+    end
   end
 
   context '#size' do
