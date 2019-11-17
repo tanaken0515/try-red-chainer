@@ -28,14 +28,14 @@ class Translator < Chainer::Chain
       @hidden.reset_state
       @optimizer.target.cleargrads
       loss = loss(source_sentence_words, target_sentence_words)
-      loss.backword
-      loss.unchain_backword
+      loss.backward
+      loss.unchain_backward
       @optimizer.update
     end
   end
 
   def save_model(model_file)
-    Chainer::Serializers::MarshalDeserializer.save_file(model_file, self)
+    Chainer::Serializers::MarshalSerializer.save_file(model_file, self)
   end
 
   def load_model(model_file)
