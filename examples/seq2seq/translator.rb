@@ -23,6 +23,7 @@ class Translator < Chainer::Chain
 
   def learn(train_dataset)
     (0...train_dataset.size).each do |i|
+      print "dataset: #{i+1} / #{train_dataset.size}, start. -> "
       source_sentence_words, target_sentence_words = train_dataset[i]
 
       @hidden.reset_state
@@ -31,6 +32,7 @@ class Translator < Chainer::Chain
       loss.backward
       loss.unchain_backward
       @optimizer.update
+      print "finish.\n"
     end
   end
 
