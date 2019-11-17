@@ -6,6 +6,7 @@ module Examples
       class Vocabulary
         UNK = {id: 0, word: '<UNK>'}
         EOS = {id: 1, word: '<EOS>'}
+        DQ = {id: 2, word: '"'}
 
         def initialize(dictionary)
           set_w2i_i2w(dictionary)
@@ -31,17 +32,18 @@ module Examples
         private
 
         def set_w2i_i2w(dictionary)
-          @w2i = {UNK[:word] => UNK[:id], EOS[:word] => EOS[:id]}
+          @w2i = {UNK[:word] => UNK[:id], EOS[:word] => EOS[:id], DQ[:word] => DQ[:id]}
           @i2w = []
           @i2w[UNK[:id]] = UNK[:word]
           @i2w[EOS[:id]] = EOS[:word]
+          @i2w[DQ[:id]] = DQ[:word]
 
           dictionary.each_with_index do |word, i|
-            unless @w2i.has_key?(word)
-              id = i + 2
-              @w2i[word] = id
-              @i2w[id] = word
-            end
+            next if @w2i.has_key?(word)
+
+            id = i + 3
+            @w2i[word] = id
+            @i2w[id] = word
           end
         end
       end
