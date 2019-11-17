@@ -35,11 +35,11 @@ class Translator < Chainer::Chain
   end
 
   def save_model(model_file)
-    NotImplementedError
+    Chainer::Serializers::MarshalDeserializer.save_file(model_file, self)
   end
 
   def load_model(model_file)
-    NotImplementedError
+    Chainer::Serializers::MarshalDeserializer.load_file(model_file, self)
   end
 
   def inference(source_sentence_words)
