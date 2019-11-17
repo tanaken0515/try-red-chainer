@@ -31,7 +31,7 @@ class Translator < Chainer::Chain
     NotImplementedError
   end
 
-  def inference(jpn_sentence_words)
+  def inference(source_sentence_words)
     NotImplementedError
   end
 end
