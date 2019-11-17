@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/tanaken0515/red-chainer
-  revision: 7234ea10f9b2e0e316e8148f866395e5b01ecf54
-  branch: sub-dataset-class
+  revision: 5e41c9528da3175e9632f3b9817032e031dba445
+  branch: kagoshima-rubykaigi-01
   specs:
     red-chainer (0.4.1)
       numo-narray (>= 0.9.1.1)
