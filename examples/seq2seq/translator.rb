@@ -45,7 +45,30 @@ class Translator < Chainer::Chain
   end
 
   def inference(source_sentence_words)
-    NotImplementedError
+    bar_h_i_list = h_i_list(source_sentence_words)
+    eos_id = @source_vocab.class::EOS[:id]
+    x_i = @embed_x.(Chainer::Variable.new(Numo::Int32[eos_id]))
+    h_t = @hidden.(x_i)
+    c_t = c_t(bar_h_i_list, h_t.data)
+
+    result = []
+    bar_h_t = Chainer::Functions::Activation::Tanh.tanh(@w_c1.(c_t) + @w_c2.(h_t))
+    #wid = Chainer::Functions::Activation::Softmax.softmax(@w_y.(bar_h_t)).data[0].argmax # todo: softmax
+    wid = @w_y.(bar_h_t).data[0].argmax
+    result.append(@target_vocab.id_to_word(wid))
+
+    while result.length < 30 do
+      y_i = @embed_y.(Chainer::Variable.new(Numo::Int32[wid]))
+      h_t = @hidden.(y_i)
+      c_t = c_t(bar_h_i_list, h_t.data)
+
+      bar_h_t = Chainer::Functions::Activation::Tanh.tanh(@w_c1.(c_t) + @w_c2.(h_t))
+      #wid = Chainer::Functions::Activation::Softmax.softmax(@w_y.(bar_h_t)).data[0].argmax # todo: softmax
+      wid = @w_y.(bar_h_t).data[0].argmax
+      result.append(@target_vocab.id_to_word(wid))
+    end
+
+    result
   end
 
   private
