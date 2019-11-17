@@ -55,7 +55,7 @@ class Translator < Chainer::Chain
     eos_id = @source_vocab.class::EOS[:id]
     x_i = @embed_x.(Chainer::Variable.new(Numo::Int32[eos_id]))
     h_t = @hidden.(x_i)
-    c_t = c_t(bar_h_i_list, h_t.data[0])
+    c_t = c_t(bar_h_i_list, h_t.data)
 
     bar_h_t = Chainer::Functions::Activation::Tanh.tanh(@w_c1.(c_t) + @w_c2.(h_t))
     first_wid = @target_vocab.word_to_id(target_sentence_words[0])
