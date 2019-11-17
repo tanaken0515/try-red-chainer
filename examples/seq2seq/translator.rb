@@ -20,7 +20,16 @@ class Translator < Chainer::Chain
   end
 
   def learn(train_dataset)
-    NotImplementedError
+    (0...train_dataset.size).each do |i|
+      source_sentence_words, target_sentence_words = train_dataset[i]
+
+      @hidden.reset_state
+      self.zerograds
+      loss = loss(source_sentence_words, target_sentence_words)
+      loss.backword
+      loss.unchain_backword
+      @optimizer.update
+    end
   end
 
   def save_model(model_file)
@@ -32,6 +41,12 @@ class Translator < Chainer::Chain
   end
 
   def inference(source_sentence_words)
+    NotImplementedError
+  end
+
+  private
+
+  def loss(source_sentence_words, target_sentence_words)
     NotImplementedError
   end
 end
