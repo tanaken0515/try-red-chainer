@@ -11,10 +11,10 @@ class Translator < Chainer::Chain
     init_scope do
       @embed_x = Links::EmbedID.new(source_vocab.size, embed_size)
       @embed_y = Links::EmbedID.new(target_vocab.size, embed_size)
-      @hidden = Links::LSTM.new(embed_size, embed_size)
-      @w_c1 = Links::Linear.new(embed_size, embed_size)
-      @w_c2 = Links::Linear.new(embed_size, embed_size)
-      @w_y = Links::Linear.new(embed_size, target_vocab.size)
+      @hidden = Links::LSTM.new(embed_size, out_size: embed_size)
+      @w_c1 = Links::Linear.new(embed_size, out_size: embed_size)
+      @w_c2 = Links::Linear.new(embed_size, out_size: embed_size)
+      @w_y = Links::Linear.new(embed_size, out_size: target_vocab.size)
     end
 
     @optimizer = Chainer::Optimizers::Adam.new
