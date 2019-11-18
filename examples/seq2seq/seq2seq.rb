@@ -4,7 +4,7 @@ require_relative 'utility/vocabulary'
 require_relative 'translator'
 
 # --------------- データセットの準備 -----------------
-dataset_size = 2500
+dataset_size = 100
 dataset = Dataset.get_jpn2eng(dataset_size)
 
 # データセットを分割する
@@ -22,7 +22,7 @@ eng_vocabulary = Examples::Seq2seq::Utility::Vocabulary.from_csv('examples/seq2s
 embed_size = 100
 model = Translator.new(jpn_vocabulary, eng_vocabulary, embed_size) # todo
 
-epoch_num = 100
+epoch_num = 10
 output_dir = "results/seq2seq_result_#{Time.now.strftime("%Y%m%d_%H%M%S")}"
 (1..epoch_num).each do |epoch|
   print "epoch: #{epoch} / #{epoch_num}, start.\n"
