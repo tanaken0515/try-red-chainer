@@ -30,7 +30,7 @@ class Translator < Chainer::Chain
       @optimizer.target.cleargrads
       loss = loss(source_sentence_words, target_sentence_words)
       loss.backward
-      loss.unchain_backward
+      #loss.unchain_backward # todo: 'method_missing': undefined method 'call' for #<WeakRef:0x00007f8891c8c2d0> (NoMethodError)
       @optimizer.update
       print "finish.\n"
     end
@@ -54,7 +54,7 @@ class Translator < Chainer::Chain
     result = []
     bar_h_t = Chainer::Functions::Activation::Tanh.tanh(@w_c1.(c_t) + @w_c2.(h_t))
     #wid = Chainer::Functions::Activation::Softmax.softmax(@w_y.(bar_h_t)).data[0].argmax # todo: softmax
-    wid = @w_y.(bar_h_t).data[0].argmax
+    wid = @w_y.(bar_h_t).data.argmax
     result.append(@target_vocab.id_to_word(wid))
 
     while result.length < 30 do
@@ -64,7 +64,7 @@ class Translator < Chainer::Chain
 
       bar_h_t = Chainer::Functions::Activation::Tanh.tanh(@w_c1.(c_t) + @w_c2.(h_t))
       #wid = Chainer::Functions::Activation::Softmax.softmax(@w_y.(bar_h_t)).data[0].argmax # todo: softmax
-      wid = @w_y.(bar_h_t).data[0].argmax
+      wid = @w_y.(bar_h_t).data.argmax
       result.append(@target_vocab.id_to_word(wid))
     end
 
