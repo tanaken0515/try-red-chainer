@@ -29,7 +29,7 @@ output_dir = "results/seq2seq_result_#{Time.now.strftime("%Y%m%d_%H%M%S")}"
 
   model.learn(train)
   model_file = "#{output_dir}/#{format('jpn_to_egn_%03d.model', epoch)}"
-  model.save_model(model_file)
+  #model.save_model(model_file) # todo
 
   print "epoch: #{epoch} / #{epoch_num}, finished.\n"
 end
@@ -62,18 +62,35 @@ end
 # trainer.run
 
 # --------------- 推論 -----------------
-model_for_inference = Translator.new(jpn_vocabulary, eng_vocabulary, embed_size)
-model_file = "#{output_dir}/#{format('jpn_to_egn_%03d.model', epoch_num)}"
-model_for_inference.load_model(model_file)
+#model_for_inference = Translator.new(jpn_vocabulary, eng_vocabulary, embed_size)
+#model_file = "#{output_dir}/#{format('jpn_to_egn_%03d.model', epoch_num)}"
+#model_for_inference.load_model(model_file)
 
 print '-' * 100 + "\n"
+
+pass_count = 0
+(0...train.size).each do |i|
+  jpn_sentence_words, eng_sentence_words = train[i]
+
+  # 変数をモデルに与えて推論結果を取得
+  prediction = model.inference(jpn_sentence_words)
+  pass_count += 1 if prediction == eng_sentence_words
+
+  print format("train%09d\n", i)
+  print " - jpn: #{jpn_sentence_words.join(' ')}\n"
+  print " - ans: #{eng_sentence_words.join(' ')}\n"
+  print " - pre: #{prediction.join(' ')}\n"
+  print "\n"
+end
+
+print "accuracy: #{pass_count * 100.0 / train.size}\n"
 
 pass_count = 0
 (0...test.size).each do |i|
   jpn_sentence_words, eng_sentence_words = test[i]
 
   # 変数をモデルに与えて推論結果を取得
-  prediction = model_for_inference.inference(jpn_sentence_words)
+  prediction = model.inference(jpn_sentence_words)
   pass_count += 1 if prediction == eng_sentence_words
 
   print format("test%09d\n", i)
