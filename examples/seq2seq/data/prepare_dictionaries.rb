@@ -14,8 +14,8 @@ CSV.foreach('examples/seq2seq/data/jpn_eng_sentences.csv', col_sep: "\t", libera
 end
 
 jpn_dictionary = jpn_words.split(' ').uniq.join("\n")
-eng_dictionary = Examples::Seq2seq::Utility::Eng.parse(eng_words)
-                   .split(' ').uniq.join("\n")
+eng_dictionary = (Examples::Seq2seq::Utility::Eng.parse(eng_words).split(' ').uniq - ['"'])
+                   .join("\n")
 
 File.write('examples/seq2seq/data/jpn_dictionary.csv', jpn_dictionary)
 File.write('examples/seq2seq/data/eng_dictionary.csv', eng_dictionary)
