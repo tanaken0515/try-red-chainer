@@ -8,7 +8,7 @@ opt.on('-r', '--resume VALUE', "Resume the training from snapshot") { |v| snapsh
 opt.parse!(ARGV)
 
 # 学習させた時と同じモデルを定義
-predictor = MLP.new
+predictor = MLP.new(hidden_nodes_size: 100, output_size: 3)
 
 # スナップショットをモデルに読み込む
 Chainer::Serializers::MarshalDeserializer.load_file(snapshot_filename, predictor, path: '/updater/model:main/@predictor/')

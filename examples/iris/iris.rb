@@ -14,7 +14,7 @@ train_iter = Chainer::Iterators::SerialIterator.new(train, batch_size)
 valid_iter = Chainer::Iterators::SerialIterator.new(valid, batch_size, repeat: false, shuffle: false)
 
 # --------------- ネットワークの準備 -----------------
-predictor = MLP.new
+predictor = MLP.new(hidden_nodes_size: 100, output_size: 3)
 
 # --------------- アップデータの準備 -----------------
 net = Chainer::Links::Model::Classifier.new(predictor)
@@ -44,7 +44,7 @@ trainer.extend(EXTENSIONS::ProgressBar.new)
 trainer.run
 
 # --------------- 推論 -----------------
-predictor_for_inference = MLP.new
+predictor_for_inference = MLP.new(hidden_nodes_size: 100, output_size: 3)
 
 snapshot_filename = "#{output_dir}/#{format("snapshot_epoch-%02d", max_epoch)}"
 Chainer::Serializers::MarshalDeserializer.load_file(snapshot_filename, predictor_for_inference, path: '/updater/model:main/@predictor/')

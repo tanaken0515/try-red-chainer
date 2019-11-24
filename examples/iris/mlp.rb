@@ -4,7 +4,7 @@ class MLP < Chainer::Chain
   Linear = Chainer::Links::Connection::Linear
   Relu = Chainer::Functions::Activation::Relu
 
-  def initialize(hidden_nodes_size: 100, output_size: 3)
+  def initialize(hidden_nodes_size:, output_size: )
     super()
     init_scope do
       @l1 = Linear.new(nil, out_size: hidden_nodes_size)
