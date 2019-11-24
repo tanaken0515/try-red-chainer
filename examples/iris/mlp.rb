@@ -4,12 +4,12 @@ class MLP < Chainer::Chain
   Linear = Chainer::Links::Connection::Linear
   Relu = Chainer::Functions::Activation::Relu
 
-  def initialize(mid_units_size: 100, output_size: 3)
+  def initialize(hidden_nodes_size: 100, output_size: 3)
     super()
     init_scope do
-      @l1 = Linear.new(nil, out_size: mid_units_size)
-      @l2 = Linear.new(mid_units_size, out_size: mid_units_size)
-      @l3 = Linear.new(mid_units_size, out_size: output_size)
+      @l1 = Linear.new(nil, out_size: hidden_nodes_size)
+      @l2 = Linear.new(hidden_nodes_size, out_size: hidden_nodes_size)
+      @l3 = Linear.new(hidden_nodes_size, out_size: output_size)
     end
   end
 
