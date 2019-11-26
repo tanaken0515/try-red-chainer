@@ -5,8 +5,9 @@ require_relative 'dataset'
 iris_dataset = Dataset.get_iris
 
 # データセットを分割する
-train_and_valid, test = Chainer::Datasets.split_dataset_random(iris_dataset, (iris_dataset.size * 0.7).to_i)
-train, valid = Chainer::Datasets.split_dataset_random(train_and_valid, (train_and_valid.size * 0.7).to_i)
+train_size, valid_size = 100, 30
+train, other = Chainer::Datasets.split_dataset_random(iris_dataset, train_size)
+valid, test = Chainer::Datasets.split_dataset_random(other, valid_size)
 
 # --------------- イテレータの準備 -----------------
 batch_size = 4
