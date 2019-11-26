@@ -18,10 +18,10 @@ valid_iter = Chainer::Iterators::SerialIterator.new(valid, batch_size, repeat: f
 predictor = MLP.new(hidden_nodes_size: 100, output_size: 3)
 
 # --------------- アップデータの準備 -----------------
-net = Chainer::Links::Model::Classifier.new(predictor)
+model = Chainer::Links::Model::Classifier.new(predictor)
 
 optimizer = Chainer::Optimizers::MomentumSGD.new(lr: 0.01)
-optimizer.setup(net)
+optimizer.setup(model)
 
 updater = Chainer::Training::StandardUpdater.new(train_iter, optimizer, device: -1) # device=-1でCPUでの計算実行を指定
 
@@ -32,7 +32,7 @@ trainer = Chainer::Training::Trainer.new(updater, stop_trigger: [epoch_size, 'ep
 
 # --------------- トレーナの拡張 -----------------
 Extensions = Chainer::Training::Extensions
-trainer.extend(Extensions::Evaluator.new(valid_iter, net, device: -1), name: 'val')
+trainer.extend(Extensions::Evaluator.new(valid_iter, model, device: -1), name: 'val')
 trainer.extend(Extensions::LogReport.new(trigger: [1, 'epoch'], log_name: 'log'))
 
 filename_proc = Proc.new { |t| format('snapshot_epoch-%02d', t.updater.epoch) }
