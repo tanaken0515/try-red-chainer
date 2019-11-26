@@ -49,7 +49,8 @@ trainer.run
 predictor = MLP.new(hidden_nodes_size: 100, output_size: 3)
 
 snapshot_filename = "#{output_dir}/#{format('snapshot_epoch-%02d', epoch_size)}"
-Chainer::Serializers::MarshalDeserializer.load_file(snapshot_filename, predictor, path: '/updater/model:main/@predictor/')
+path = '/updater/model:main/@predictor/'
+Chainer::Serializers::MarshalDeserializer.load_file(snapshot_filename, predictor, path: path)
 
 print '-' * 100 + "\n"
 
