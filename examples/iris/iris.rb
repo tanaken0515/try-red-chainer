@@ -27,8 +27,8 @@ updater = Chainer::Training::StandardUpdater.new(train_iter, optimizer, device: 
 
 # --------------- トレーナの作成 -----------------
 output_dir = "results/iris_result_#{Time.now.strftime("%Y%m%d_%H%M%S")}"
-max_epoch = 30
-trainer = Chainer::Training::Trainer.new(updater, stop_trigger: [max_epoch, 'epoch'], out: output_dir)
+epoch_size = 30
+trainer = Chainer::Training::Trainer.new(updater, stop_trigger: [epoch_size, 'epoch'], out: output_dir)
 
 # --------------- トレーナの拡張 -----------------
 EXTENSIONS = Chainer::Training::Extensions
@@ -47,7 +47,7 @@ trainer.run
 # --------------- 推論 -----------------
 predictor_for_inference = MLP.new(hidden_nodes_size: 100, output_size: 3)
 
-snapshot_filename = "#{output_dir}/#{format("snapshot_epoch-%02d", max_epoch)}"
+snapshot_filename = "#{output_dir}/#{format("snapshot_epoch-%02d", epoch_size)}"
 Chainer::Serializers::MarshalDeserializer.load_file(snapshot_filename, predictor_for_inference, path: '/updater/model:main/@predictor/')
 
 print '-' * 100 + "\n"
