@@ -57,12 +57,10 @@ print '-' * 100 + "\n"
 pass_count = 0
 (0...test.size).each do |i|
   variables, answer = test[i]
-
-  # 変数をモデルに与えて推論結果を取得
-  prediction = predictor.(variables).data.argmax
+  prediction = predictor.(variables).data.argmax # 推論結果を取得
   pass_count += 1 if prediction == answer
 
-  print format("test%03d: prediction = %d, answer = %d\n",i, prediction, answer)
+  print format("test%03d: prediction = %d, answer = %d\n",i + 1, prediction, answer)
 end
 
 print "accuracy: #{pass_count * 100.0 / test.size}\n"
