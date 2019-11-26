@@ -11,8 +11,9 @@ valid, test = Chainer::Datasets.split_dataset_random(other, valid_size)
 
 # --------------- イテレータの準備 -----------------
 batch_size = 4
-train_iter = Chainer::Iterators::SerialIterator.new(train, batch_size)
-valid_iter = Chainer::Iterators::SerialIterator.new(valid, batch_size, repeat: false, shuffle: false)
+SerialIterator = Chainer::Iterators::SerialIterator
+train_iter = SerialIterator.new(train, batch_size)
+valid_iter = SerialIterator.new(valid, batch_size, repeat: false, shuffle: false)
 
 # --------------- ネットワークの準備 -----------------
 predictor = MLP.new(hidden_nodes_size: 100, output_size: 3)
