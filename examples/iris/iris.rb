@@ -46,10 +46,10 @@ trainer.extend(Extensions::ProgressBar.new)
 trainer.run
 
 # --------------- 推論 -----------------
-predictor_for_inference = MLP.new(hidden_nodes_size: 100, output_size: 3)
+predictor = MLP.new(hidden_nodes_size: 100, output_size: 3)
 
 snapshot_filename = "#{output_dir}/#{format('snapshot_epoch-%02d', epoch_size)}"
-Chainer::Serializers::MarshalDeserializer.load_file(snapshot_filename, predictor_for_inference, path: '/updater/model:main/@predictor/')
+Chainer::Serializers::MarshalDeserializer.load_file(snapshot_filename, predictor, path: '/updater/model:main/@predictor/')
 
 print '-' * 100 + "\n"
 
@@ -58,7 +58,7 @@ pass_count = 0
   variables, answer = test[i]
 
   # 変数をモデルに与えて推論結果を取得
-  prediction = predictor_for_inference.(variables).data.argmax
+  prediction = predictor.(variables).data.argmax
   pass_count += 1 if prediction == answer
 
   print format("test%03d: prediction = %d, answer = %d\n",i, prediction, answer)
