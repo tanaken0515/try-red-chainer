@@ -24,7 +24,7 @@ model = Chainer::Links::Model::Classifier.new(predictor)
 optimizer = Chainer::Optimizers::MomentumSGD.new(lr: 0.01)
 optimizer.setup(model)
 
-updater = Chainer::Training::StandardUpdater.new(train_iter, optimizer, device: -1) # device=-1でCPUでの計算実行を指定
+updater = Chainer::Training::StandardUpdater.new(train_iter, optimizer)
 
 # --------------- トレーナの作成 -----------------
 output_dir = "results/iris_result_#{Time.now.strftime('%Y%m%d_%H%M%S')}"
