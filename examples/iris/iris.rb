@@ -31,15 +31,15 @@ epoch_size = 30
 trainer = Chainer::Training::Trainer.new(updater, stop_trigger: [epoch_size, 'epoch'], out: output_dir)
 
 # --------------- トレーナの拡張 -----------------
-EXTENSIONS = Chainer::Training::Extensions
-trainer.extend(EXTENSIONS::Evaluator.new(valid_iter, net, device: -1), name: 'val')
-trainer.extend(EXTENSIONS::LogReport.new(trigger: [1, 'epoch'], log_name: 'log'))
+Extensions = Chainer::Training::Extensions
+trainer.extend(Extensions::Evaluator.new(valid_iter, net, device: -1), name: 'val')
+trainer.extend(Extensions::LogReport.new(trigger: [1, 'epoch'], log_name: 'log'))
 
 filename_proc = Proc.new { |t| format("snapshot_epoch-%02d", t.updater.epoch) }
-trainer.extend(EXTENSIONS::Snapshot.new(filename_proc: filename_proc), trigger: [1, 'epoch'])
+trainer.extend(Extensions::Snapshot.new(filename_proc: filename_proc), trigger: [1, 'epoch'])
 
-trainer.extend(EXTENSIONS::PrintReport.new(['epoch', 'iteration', 'main/loss', 'main/accuracy', 'val/main/loss', 'val/main/accuracy', 'elapsed_time']))
-trainer.extend(EXTENSIONS::ProgressBar.new)
+trainer.extend(Extensions::PrintReport.new(['epoch', 'iteration', 'main/loss', 'main/accuracy', 'val/main/loss', 'val/main/accuracy', 'elapsed_time']))
+trainer.extend(Extensions::ProgressBar.new)
 
 # --------------- 訓練の開始 -----------------
 trainer.run
