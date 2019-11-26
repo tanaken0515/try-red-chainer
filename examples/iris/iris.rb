@@ -26,7 +26,7 @@ optimizer.setup(net)
 updater = Chainer::Training::StandardUpdater.new(train_iter, optimizer, device: -1) # device=-1でCPUでの計算実行を指定
 
 # --------------- トレーナの作成 -----------------
-output_dir = "results/iris_result_#{Time.now.strftime("%Y%m%d_%H%M%S")}"
+output_dir = "results/iris_result_#{Time.now.strftime('%Y%m%d_%H%M%S')}"
 epoch_size = 30
 trainer = Chainer::Training::Trainer.new(updater, stop_trigger: [epoch_size, 'epoch'], out: output_dir)
 
@@ -35,7 +35,7 @@ Extensions = Chainer::Training::Extensions
 trainer.extend(Extensions::Evaluator.new(valid_iter, net, device: -1), name: 'val')
 trainer.extend(Extensions::LogReport.new(trigger: [1, 'epoch'], log_name: 'log'))
 
-filename_proc = Proc.new { |t| format("snapshot_epoch-%02d", t.updater.epoch) }
+filename_proc = Proc.new { |t| format('snapshot_epoch-%02d', t.updater.epoch) }
 trainer.extend(Extensions::Snapshot.new(filename_proc: filename_proc), trigger: [1, 'epoch'])
 
 entries = %w[epoch iteration main/loss main/accuracy val/main/loss val/main/accuracy elapsed_time]
@@ -48,7 +48,7 @@ trainer.run
 # --------------- 推論 -----------------
 predictor_for_inference = MLP.new(hidden_nodes_size: 100, output_size: 3)
 
-snapshot_filename = "#{output_dir}/#{format("snapshot_epoch-%02d", epoch_size)}"
+snapshot_filename = "#{output_dir}/#{format('snapshot_epoch-%02d', epoch_size)}"
 Chainer::Serializers::MarshalDeserializer.load_file(snapshot_filename, predictor_for_inference, path: '/updater/model:main/@predictor/')
 
 print '-' * 100 + "\n"
