@@ -38,7 +38,8 @@ trainer.extend(Extensions::LogReport.new(trigger: [1, 'epoch'], log_name: 'log')
 filename_proc = Proc.new { |t| format("snapshot_epoch-%02d", t.updater.epoch) }
 trainer.extend(Extensions::Snapshot.new(filename_proc: filename_proc), trigger: [1, 'epoch'])
 
-trainer.extend(Extensions::PrintReport.new(['epoch', 'iteration', 'main/loss', 'main/accuracy', 'val/main/loss', 'val/main/accuracy', 'elapsed_time']))
+entries = %w[epoch iteration main/loss main/accuracy val/main/loss val/main/accuracy elapsed_time]
+trainer.extend(Extensions::PrintReport.new(entries))
 trainer.extend(Extensions::ProgressBar.new)
 
 # --------------- 訓練の開始 -----------------
